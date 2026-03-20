@@ -1,3 +1,5 @@
+
+import MusicPlayer from "@/components/MusicPlayer"
 import Hero from "@/components/Hero"
 import CulturalMerge from "@/components/CulturalMerge"
 import Journey from "@/components/Journey"
@@ -9,7 +11,7 @@ import RSVP from "@/components/RSVP"
 export default function Home() {
   return (
     <main>
-
+<MusicPlayer />
       <Hero />
 
       <CulturalMerge />

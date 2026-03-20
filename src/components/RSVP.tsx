@@ -1,65 +1,98 @@
 "use client"
 
 import { useState } from "react"
+import { motion } from "framer-motion"
 
-const events = ["Mehendi", "Haldi", "Sangeet", "Wedding"]
+const events = ["Haldi", "Sangeet", "Wedding"]
 
 export default function RSVP() {
 
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    guests: 1,
-    dietary: "",
-    message: "",
-    events: [] as string[]
+const [form, setForm] = useState({
+  name: "",
+  email: "",
+  guests: 1,
+  dietary: "",
+  message: "",
+  events: [] as string[]
+})
+
+const [submitted, setSubmitted] = useState(false)
+const [loading, setLoading] = useState(false)
+
+const toggleEvent = (event: string) => {
+  let updated = [...form.events]
+
+  if (updated.includes(event)) {
+    updated = updated.filter(e => e !== event)
+  } else {
+    updated.push(event)
+  }
+
+  setForm({ ...form, events: updated })
+}
+
+const handleSubmit = async (e: any) => {
+  e.preventDefault()
+  setLoading(true)
+
+  await fetch("/api/rsvp", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(form)
   })
 
-  const handleEventChange = (event: string) => {
+  setLoading(false)
+  setSubmitted(true)
+}
 
-    let updated = [...form.events]
+return (
 
-    if (updated.includes(event)) {
-      updated = updated.filter(e => e !== event)
-    } else {
-      updated.push(event)
-    }
+<section className="py-40 bg-[#0f0d0b] text-center relative overflow-hidden">
 
-    setForm({ ...form, events: updated })
-  }
+<div className="absolute inset-0 opacity-[0.08]"
+style={{
+background: "radial-gradient(circle at center, rgba(212,175,55,0.4), transparent 60%)"
+}}/>
 
-  const handleSubmit = async (e: any) => {
+<div className="max-w-2xl mx-auto px-6 relative">
 
-    e.preventDefault()
-
-    await fetch("/api/rsvp", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(form)
-    })
-
-    alert("Thank you for your RSVP!")
-  }
-
-  return (
-
-<section className="py-40 bg-[#0f0d0b] text-center">
-
-<h2 className="text-5xl text-[#f1d48a] mb-16">
+<motion.h2
+initial={{ opacity: 0, y: 40 }}
+whileInView={{ opacity: 1, y: 0 }}
+className="text-4xl md:text-5xl text-[#f1d48a] mb-12"
+>
 RSVP
-</h2>
+</motion.h2>
+
+{submitted ? (
+
+<motion.div
+initial={{ opacity: 0 }}
+animate={{ opacity: 1 }}
+className="bg-[#1a1714]/70 backdrop-blur-xl border border-[#d4af37]/30 rounded-xl p-10"
+>
+
+<h3 className="text-2xl text-[#f1d48a] mb-4">
+Thank You
+</h3>
+
+<p className="text-gray-300">
+We look forward to celebrating with you ✦
+</p>
+
+</motion.div>
+
+) : (
 
 <form
 onSubmit={handleSubmit}
-className="max-w-xl mx-auto space-y-6 text-left"
+className="bg-[#1a1714]/70 backdrop-blur-xl border border-[#d4af37]/30 rounded-xl p-8 space-y-6 text-left"
 >
 
 <input
 required
 placeholder="Full Name"
-className="w-full p-3 rounded bg-[#1b1917] text-white"
+className="w-full p-3 rounded bg-[#0f0d0b] text-white border border-[#d4af37]/20"
 onChange={(e) => setForm({ ...form, name: e.target.value })}
 />
 
@@ -67,74 +100,70 @@ onChange={(e) => setForm({ ...form, name: e.target.value })}
 required
 type="email"
 placeholder="Email"
-className="w-full p-3 rounded bg-[#1b1917] text-white"
+className="w-full p-3 rounded bg-[#0f0d0b] text-white border border-[#d4af37]/20"
 onChange={(e) => setForm({ ...form, email: e.target.value })}
 />
 
 <select
-className="w-full p-3 rounded bg-[#1b1917] text-white"
+className="w-full p-3 rounded bg-[#0f0d0b] text-white border border-[#d4af37]/20"
 onChange={(e) => setForm({ ...form, guests: Number(e.target.value) })}
 >
-
 <option value="1">1 Guest</option>
 <option value="2">2 Guests</option>
 <option value="3">3 Guests</option>
 <option value="4">4 Guests</option>
-
 </select>
 
-
+{/* Event Selection */}
+{/* Event Selection */}
 <div>
+  <p className="text-[#f1d48a] mb-4">Events</p>
 
-<p className="text-[#f1d48a] mb-2">
-Events Attending
-</p>
+  <div className="flex flex-wrap md:flex-nowrap gap-4 justify-between">
 
-<div className="space-y-2">
+    {events.map(event => (
 
-{events.map(event => (
+      <button
+        type="button"
+        key={event}
+        onClick={() => toggleEvent(event)}
+        className={`flex-1 border px-4 py-3 rounded-lg text-sm transition whitespace-nowrap ${
+          form.events.includes(event)
+            ? "bg-[#d4af37] text-black"
+            : "border-[#d4af37]/30 text-gray-300 hover:border-[#d4af37]"
+        }`}
+      >
+        {event}
+      </button>
 
-<label key={event} className="flex gap-2 text-gray-200">
+    ))}
 
-<input
-type="checkbox"
-onChange={() => handleEventChange(event)}
-/>
-
-{event}
-
-</label>
-
-))}
-
+  </div>
 </div>
-
-</div>
-
-
 <textarea
 placeholder="Dietary restrictions"
-className="w-full p-3 rounded bg-[#1b1917] text-white"
-onChange={(e) => setForm({ ...form, dietary: e.target.value })}
+className="w-full p-3 rounded bg-[#0f0d0b] text-white border border-[#d4af37]/20"
 />
 
 <textarea
-placeholder="Message for the couple"
-className="w-full p-3 rounded bg-[#1b1917] text-white"
-onChange={(e) => setForm({ ...form, message: e.target.value })}
+placeholder="Message"
+className="w-full p-3 rounded bg-[#0f0d0b] text-white border border-[#d4af37]/20"
 />
 
 <button
+disabled={loading}
 className="w-full bg-[#d4af37] text-black py-3 rounded font-semibold hover:opacity-90"
 >
-
-Submit RSVP
-
+{loading ? "Sending..." : "Confirm Attendance"}
 </button>
 
 </form>
 
+)}
+
+</div>
+
 </section>
 
-  )
+)
 }

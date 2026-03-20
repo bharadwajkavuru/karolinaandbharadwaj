@@ -222,6 +222,7 @@ const ornamentOpacity = useTransform(scrollYProgress, [0.4, 0.7], [0, 1])
 
 
 {/* Merge message */}
+{/* Merge message */}
 <motion.div
   style={{
     opacity: textOpacity,
@@ -229,39 +230,58 @@ const ornamentOpacity = useTransform(scrollYProgress, [0.4, 0.7], [0, 1])
   }}
   className="absolute inset-0 flex items-center justify-center text-center"
 >
+  <div className="flex flex-col items-center relative">
 
-<div className="flex flex-col items-center relative">
+    {/* Gold dust burst */}
+    <motion.div
+      style={{
+        opacity: dustOpacity,
+        scale: dustScale
+      }}
+      className="absolute w-[420px] h-[420px] rounded-full blur-3xl"
+    />
 
-  {/* Gold dust burst */}
-  <motion.div
-    style={{
-      opacity: dustOpacity,
-      scale: dustScale
-    }}
-    className="absolute w-[420px] h-[420px] rounded-full blur-3xl"
-  />
+    {/* ✨ INVITATION ONLY */}
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 1.2, ease: "easeOut" }}
+      viewport={{ once: true }}
+      className="flex flex-col items-center relative z-10"
+    >
+{/* Line 1 */}
+{/* Line 1 */}
+<motion.p
+  initial={{ opacity: 0, y: 20 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  transition={{ delay: 0.3, duration: 1 }}
+  className="text-xl md:text-2xl text-[#e6d3a3] tracking-wide"
+>
+  We warmly invite you
+</motion.p>
 
-  <h2 className="text-5xl md:text-6xl text-[#f1d48a] mb-4 tracking-wide relative z-10">
-    Two Cultures
-  </h2>
+{/* Line 2 */}
+<motion.p
+  initial={{ opacity: 0, y: 20 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  transition={{ delay: 0.8, duration: 1 }}
+  className="text-xl md:text-2xl mt-3 text-[#e6c77c] tracking-wide"
+>
+  to join us and bless this new beginning
+</motion.p>
+    </motion.div>
 
-  <p className="text-xl text-[#f5f5f5] mb-6 relative z-10">
-    One Celebration
-  </p>
+    {/* Ornament */}
+    <motion.div
+      style={{ opacity: ornamentOpacity }}
+      className="flex items-center gap-4 mt-12 relative z-10"
+    >
+      <div className="h-[1px] w-16 bg-[#d4af37]/70"></div>
+      <div className="text-[#d4af37] text-lg">✦</div>
+      <div className="h-[1px] w-16 bg-[#d4af37]/70"></div>
+    </motion.div>
 
-  <motion.div
-    style={{ opacity: ornamentOpacity }}
-    className="flex items-center gap-4 relative z-10"
-  >
-
-    <div className="h-[1px] w-16 bg-[#d4af37]/70"></div>
-    <div className="text-[#d4af37] text-lg">✦</div>
-    <div className="h-[1px] w-16 bg-[#d4af37]/70"></div>
-
-  </motion.div>
-
-</div>
-
+  </div>
 </motion.div>
 </section>
 

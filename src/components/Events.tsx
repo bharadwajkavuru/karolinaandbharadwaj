@@ -5,13 +5,6 @@ import { useState } from "react"
 
 const events = [
   {
-    title: "Mehendi Ceremony",
-    date: "15 May 2026",
-    et: "10:00 AM ET",
-    ist: "7:30 PM IST",
-    image: "/events/mehendi.jpg"
-  },
-  {
     title: "Haldi Ceremony",
     date: "16 May 2026",
     et: "12:00 PM ET",
@@ -48,8 +41,6 @@ viewport={{ once: true }}
 className="relative py-40 bg-[#0f0d0b] text-center overflow-hidden"
 >
 
-{/* background glow */}
-
 <div
 className="absolute inset-0 opacity-[0.08]"
 style={{
@@ -64,8 +55,8 @@ background:
 Events
 </h2>
 
-
-<div className="grid md:grid-cols-4 gap-10">
+{/* 👇 Changed to 3 columns */}
+<div className="grid md:grid-cols-3 gap-10">
 
 {events.map((event, i) => {
 
@@ -88,23 +79,16 @@ style={{ transformStyle: "preserve-3d" }}
 >
 
 {/* FRONT */}
-
 <div
 className="absolute inset-0 rounded-xl overflow-hidden border border-[#d4af37]/30"
 style={{ backfaceVisibility: "hidden" }}
 >
 
-{/* photo background */}
-
 <img
 src={event.image}
 className="absolute inset-0 w-full h-full object-cover opacity-55"/>
 
-{/* dark overlay */}
-
 <div className="absolute inset-0 bg-black/45" />
-
-{/* content */}
 
 <div className="relative h-full flex flex-col items-center justify-center text-center p-6">
 
@@ -113,20 +97,15 @@ className="absolute inset-0 w-full h-full object-cover opacity-55"/>
 </h3>
 
 <div className="flex items-center gap-3">
-
 <div className="h-[1px] w-10 bg-[#d4af37]/70"></div>
 <div className="text-[#d4af37]">✦</div>
 <div className="h-[1px] w-10 bg-[#d4af37]/70"></div>
-
 </div>
 
 </div>
-
 </div>
-
 
 {/* BACK */}
-
 <div
 className="absolute inset-0 rounded-xl overflow-hidden border border-[#d4af37]/30 bg-[#161412]"
 style={{
@@ -161,7 +140,6 @@ className="absolute inset-0 w-full h-full object-cover opacity-45"
 </div>
 
 </motion.div>
-
 </div>
 
 )
@@ -170,15 +148,10 @@ className="absolute inset-0 w-full h-full object-cover opacity-45"
 
 </div>
 
-
-{/* divider */}
-
 <div className="flex justify-center mt-20 items-center gap-4">
-
 <div className="h-[1px] w-16 bg-[#d4af37]/60"></div>
 <div className="text-[#d4af37] text-lg">✦</div>
 <div className="h-[1px] w-16 bg-[#d4af37]/60"></div>
-
 </div>
 
 </div>

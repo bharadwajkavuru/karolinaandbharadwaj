@@ -12,32 +12,23 @@ export default function CulturalMerge() {
     offset: ["start end", "end start"]
   })
 
-  // Desktop animation
-  const leftX = useTransform(scrollYProgress, [0.05, 0.65], ["0%", "-55%"])
-  const rightX = useTransform(scrollYProgress, [0.05, 0.65], ["0%", "55%"])
-
-  // Mobile safer animation (less movement)
-  const mobileLeftX = useTransform(scrollYProgress, [0.05, 0.65], ["0%", "-20%"])
-  const mobileRightX = useTransform(scrollYProgress, [0.05, 0.65], ["0%", "20%"])
-
-  const textOpacity = useTransform(scrollYProgress, [0.25, 0.5], [0, 1])
-  const textScale = useTransform(scrollYProgress, [0.25, 0.5], [0.95, 1])
-
-  const dividerOpacity = useTransform(scrollYProgress, [0.1, 0.4], [0, 0.7])
-  const dividerHeight = useTransform(scrollYProgress, [0.15, 0.55], ["0%", "70%"])
-
-  const [soundOn, setSoundOn] = useState(true)
-  const audioRef = useRef<HTMLAudioElement | null>(null)
-  const hasStarted = useRef(false)
-
-  // detect mobile once (avoid hydration issues)
   const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
     setIsMobile(window.innerWidth < 768)
   }, [])
 
-  // 🔊 user interaction audio start
+  // Desktop only animation
+  const leftX = useTransform(scrollYProgress, [0.05, 0.65], ["0%", "-55%"])
+  const rightX = useTransform(scrollYProgress, [0.05, 0.65], ["0%", "55%"])
+
+  const textOpacity = useTransform(scrollYProgress, [0.25, 0.5], [0, 1])
+  const textScale = useTransform(scrollYProgress, [0.25, 0.5], [0.95, 1])
+
+  const [soundOn, setSoundOn] = useState(true)
+  const audioRef = useRef<HTMLAudioElement | null>(null)
+  const hasStarted = useRef(false)
+
   useEffect(() => {
     const startAudio = () => {
       if (hasStarted.current) return
@@ -45,38 +36,29 @@ export default function CulturalMerge() {
 
       audioRef.current.volume = 0.25
       audioRef.current.play().catch(() => {})
-
       hasStarted.current = true
-
-      window.removeEventListener("click", startAudio)
-      window.removeEventListener("touchstart", startAudio)
-      window.removeEventListener("keydown", startAudio)
     }
 
     window.addEventListener("click", startAudio)
     window.addEventListener("touchstart", startAudio)
-    window.addEventListener("keydown", startAudio)
 
     return () => {
       window.removeEventListener("click", startAudio)
       window.removeEventListener("touchstart", startAudio)
-      window.removeEventListener("keydown", startAudio)
     }
   }, [])
 
   useEffect(() => {
     if (!audioRef.current) return
-
-    if (soundOn) {
-      audioRef.current.play().catch(() => {})
-    } else {
-      audioRef.current.pause()
-    }
+    soundOn ? audioRef.current.play().catch(() => {}) : audioRef.current.pause()
   }, [soundOn])
 
   return (
 
-<section ref={ref} className="w-full relative h-[120vh] bg-[#0f0d0b] overflow-hidden">
+<section
+  ref={ref}
+  className="w-full relative bg-[#0f0d0b] overflow-hidden"
+>
 
 <audio ref={audioRef} loop src="/audio/ambient-flute.mp3" />
 
@@ -87,86 +69,102 @@ export default function CulturalMerge() {
   {soundOn ? "🔊" : "🔈"}
 </button>
 
-{/* glow */}
-<div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,rgba(255,215,120,0.12),transparent_60%)]" />
+{/* ✨ DESKTOP VERSION */}
+{!isMobile && (
+<>
+  {/* Slovakia */}
+  <motion.div
+    style={{ x: leftX }}
+    className="absolute left-0 top-0 w-1/2 h-screen flex items-center justify-center overflow-hidden"
+  >
+    <div
+      className="absolute inset-0 bg-cover bg-center opacity-85"
+      style={{ backgroundImage: "url('/culturalMerge/slovakia.jpg')" }}
+    />
+    <div className="absolute inset-0 bg-black/50" />
+    <div className="text-center text-white relative z-10">
+      <h2 className="text-4xl mb-4">Slovakia</h2>
+      <p className="opacity-70">Mountains • Tradition • Heritage</p>
+    </div>
+  </motion.div>
 
-{/* 🇸🇰 Slovakia */}
-<motion.div
-  style={{ x: isMobile ? mobileLeftX : leftX }}
-  className="
-  absolute left-0 top-0
-  w-full md:w-1/2
-  h-[60vh] md:h-screen
-  flex items-center justify-center
-  overflow-hidden
-  shadow-[inset_-40px_0_80px_rgba(0,0,0,0.7)]
-"
->
-  <div
-    className="absolute inset-0 bg-cover bg-center opacity-85"
-    style={{ backgroundImage: "url('/culturalMerge/slovakia.jpg')" }}
-  />
+  {/* India */}
+  <motion.div
+    style={{ x: rightX }}
+    className="absolute right-0 top-0 w-1/2 h-screen flex items-center justify-center overflow-hidden"
+  >
+    <div
+      className="absolute inset-0 bg-cover bg-center opacity-90"
+      style={{ backgroundImage: "url('/culturalMerge/india.jpg')" }}
+    />
+    <div className="absolute inset-0 bg-black/40" />
+    <div className="text-center text-white relative z-10">
+      <h2 className="text-4xl mb-4">India</h2>
+      <p className="opacity-80">Colors • Celebration • Culture</p>
+    </div>
+  </motion.div>
 
-  <div className="absolute inset-0 bg-gradient-to-br from-[#1c2530]/60 via-[#1c2530]/40 to-[#1c2530]/70" />
+  {/* Center Text */}
+  <motion.div
+    style={{ opacity: textOpacity, scale: textScale }}
+    className="absolute inset-0 flex items-center justify-center text-center"
+  >
+    <div>
+      <p className="text-2xl text-[#e6d3a3]">We warmly invite you</p>
+      <p className="text-2xl mt-3 text-[#e6c77c]">
+        to join us and bless this new beginning
+      </p>
+    </div>
+  </motion.div>
+</>
+)}
 
-  <div className="text-center text-[#f5f5f5] relative z-10 px-4">
-    <h2 className="text-3xl md:text-4xl mb-4">Slovakia</h2>
-    <p className="opacity-70 text-sm md:text-base">
-      Mountains • Tradition • Heritage
-    </p>
+{/* 📱 MOBILE VERSION (CLEAN + SMOOTH) */}
+{isMobile && (
+<div className="flex flex-col">
+
+  {/* Slovakia */}
+  <div className="relative h-[60vh] flex items-center justify-center overflow-hidden">
+    <div
+      className="absolute inset-0 bg-cover bg-center"
+      style={{ backgroundImage: "url('/culturalMerge/slovakia.jpg')" }}
+    />
+    <div className="absolute inset-0 bg-black/40" />
+    <div className="relative text-center text-white px-4">
+      <h2 className="text-3xl mb-2">Slovakia</h2>
+      <p className="opacity-80 text-sm">
+        Mountains • Tradition • Heritage
+      </p>
+    </div>
   </div>
-</motion.div>
 
-{/* 🇮🇳 India */}
-<motion.div
-  style={{ x: isMobile ? mobileRightX : rightX }}
-  className="
-  absolute md:right-0 top-[60vh] md:top-0
-  w-full md:w-1/2
-  h-[60vh] md:h-screen
-  flex items-center justify-center
-  overflow-hidden
-  shadow-[inset_40px_0_80px_rgba(0,0,0,0.7)]
-"
->
-  <div
-    className="absolute inset-0 bg-cover bg-center opacity-90"
-    style={{ backgroundImage: "url('/culturalMerge/india.jpg')" }}
-  />
-
-  <div className="absolute inset-0 bg-gradient-to-br from-[#a63e1f]/55 via-[#a63e1f]/35 to-[#7f2a1d]/65" />
-
-  <div className="text-center text-[#fff3e0] relative z-10 px-4">
-    <h2 className="text-3xl md:text-4xl mb-4">India</h2>
-    <p className="opacity-80 text-sm md:text-base">
-      Colors • Celebration • Culture
-    </p>
-  </div>
-</motion.div>
-
-{/* divider */}
-<motion.div
-  style={{ opacity: dividerOpacity, height: dividerHeight }}
-  className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2
-  w-[2px]
-  bg-gradient-to-b from-transparent via-[#d4af37]/70 to-transparent
-  blur-[0.6px]"
-/>
-
-{/* center text */}
-<motion.div
-  style={{ opacity: textOpacity, scale: textScale }}
-  className="absolute inset-0 flex items-center justify-center text-center translate-y-10 md:translate-y-16 px-4"
->
-  <div>
-    <p className="text-lg md:text-2xl text-[#e6d3a3]">
+  {/* TEXT */}
+  <div className="py-16 text-center px-6">
+    <p className="text-lg text-[#e6d3a3]">
       We warmly invite you
     </p>
-    <p className="text-lg md:text-2xl mt-3 text-[#e6c77c]">
+    <p className="text-lg mt-3 text-[#e6c77c]">
       to join us and bless this new beginning
     </p>
   </div>
-</motion.div>
+
+  {/* India */}
+  <div className="relative h-[60vh] flex items-center justify-center overflow-hidden">
+    <div
+      className="absolute inset-0 bg-cover bg-center"
+      style={{ backgroundImage: "url('/culturalMerge/india.jpg')" }}
+    />
+    <div className="absolute inset-0 bg-black/40" />
+    <div className="relative text-center text-white px-4">
+      <h2 className="text-3xl mb-2">India</h2>
+      <p className="opacity-80 text-sm">
+        Colors • Celebration • Culture
+      </p>
+    </div>
+  </div>
+
+</div>
+)}
 
 </section>
 

@@ -13,7 +13,8 @@ const [form, setForm] = useState({
   guests: 1,
   dietary: "",
   message: "",
-  events: [] as string[]
+  events: [] as string[],
+  attendance: "" // ✅ NEW
 })
 
 const [submitted, setSubmitted] = useState(false)
@@ -33,6 +34,12 @@ const toggleEvent = (event: string) => {
 
 const handleSubmit = async (e: any) => {
   e.preventDefault()
+
+  if (!form.attendance) {
+    alert("Please select your attendance")
+    return
+  }
+
   setLoading(true)
 
   await fetch("/api/rsvp", {
@@ -71,6 +78,7 @@ RSVP
 <p className="mt-4 text-base text-neutral-500">
   Please take a moment to let us know your plans below, as it will help us prepare for your presence.
 </p>
+
 {submitted ? (
 
 <motion.div
@@ -78,15 +86,8 @@ initial={{ opacity: 0 }}
 animate={{ opacity: 1 }}
 className="bg-[#1a1714]/70 backdrop-blur-xl border border-[#d4af37]/30 rounded-xl p-10"
 >
-
-<h3 className="text-2xl text-[#f1d48a] mb-4">
-Thank You
-</h3>
-
-<p className="text-gray-300">
-We look forward to celebrating with you ✦
-</p>
-
+<h3 className="text-2xl text-[#f1d48a] mb-4">Thank You</h3>
+<p className="text-gray-300">We look forward to celebrating with you ✦</p>
 </motion.div>
 
 ) : (
@@ -95,6 +96,32 @@ We look forward to celebrating with you ✦
 onSubmit={handleSubmit}
 className="bg-[#1a1714]/70 backdrop-blur-xl border border-[#d4af37]/30 rounded-xl p-8 space-y-6 text-left"
 >
+
+{/* Attendance */}
+<div>
+  <p className="text-[#f1d48a] mb-3">Will you be joining us?</p>
+
+  <div className="flex gap-3">
+
+    {["Yes", "No", "Maybe"].map(option => (
+
+      <button
+        key={option}
+        type="button"
+        onClick={() => setForm({ ...form, attendance: option })}
+        className={`flex-1 border px-4 py-2 rounded-lg transition ${
+          form.attendance === option
+            ? "bg-[#d4af37] text-black"
+            : "border-[#d4af37]/30 text-gray-300 hover:border-[#d4af37]"
+        }`}
+      >
+        {option}
+      </button>
+
+    ))}
+
+  </div>
+</div>
 
 <input
 required
@@ -111,6 +138,9 @@ className="w-full p-3 rounded bg-[#0f0d0b] text-white border border-[#d4af37]/20
 onChange={(e) => setForm({ ...form, email: e.target.value })}
 />
 
+{/* 👇 SHOW ONLY IF YES OR MAYBE */}
+{form.attendance !== "No" && (
+<>
 <select
 className="w-full p-3 rounded bg-[#0f0d0b] text-white border border-[#d4af37]/20"
 onChange={(e) => setForm({ ...form, guests: Number(e.target.value) })}
@@ -121,12 +151,10 @@ onChange={(e) => setForm({ ...form, guests: Number(e.target.value) })}
 <option value="4">4 Guests</option>
 </select>
 
-{/* Event Selection */}
-{/* Event Selection */}
 <div>
   <p className="text-[#f1d48a] mb-4">Events</p>
 
-  <div className="flex flex-wrap md:flex-nowrap gap-4 justify-between">
+  <div className="flex flex-wrap md:flex-nowrap gap-4">
 
     {events.map(event => (
 
@@ -134,10 +162,10 @@ onChange={(e) => setForm({ ...form, guests: Number(e.target.value) })}
         type="button"
         key={event}
         onClick={() => toggleEvent(event)}
-        className={`flex-1 border px-4 py-3 rounded-lg text-sm transition whitespace-nowrap ${
+        className={`flex-1 border px-4 py-3 rounded-lg text-sm ${
           form.events.includes(event)
             ? "bg-[#d4af37] text-black"
-            : "border-[#d4af37]/30 text-gray-300 hover:border-[#d4af37]"
+            : "border-[#d4af37]/30 text-gray-300"
         }`}
       >
         {event}
@@ -147,10 +175,13 @@ onChange={(e) => setForm({ ...form, guests: Number(e.target.value) })}
 
   </div>
 </div>
+
 <textarea
 placeholder="Dietary restrictions"
 className="w-full p-3 rounded bg-[#0f0d0b] text-white border border-[#d4af37]/20"
 />
+</>
+)}
 
 <textarea
 placeholder="Message"

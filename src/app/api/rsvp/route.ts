@@ -15,8 +15,18 @@ export async function POST(req: Request) {
     });
 
     const events = data.events?.join(", ") || "None";
+    const attendance = data.attendance || "Not specified";
 
-    // 📩 EMAIL TO YOU (UNCHANGED BUT POLISHED)
+    // ✨ Dynamic message based on response
+    const messageMap: any = {
+      Yes: "We are truly delighted that you will be joining us. It means so much to celebrate together.",
+      No: "We completely understand and will miss your presence. Thank you for your warm wishes.",
+      Maybe: "We hope you’ll be able to join us. Do let us know once your plans are confirmed."
+    };
+
+    const customMessage = messageMap[data.attendance] || "";
+
+    // 📩 EMAIL TO YOU
     await transporter.sendMail({
       from: process.env.EMAIL_USER,
       to: "kbharadwaj415@gmail.com",
@@ -25,6 +35,7 @@ export async function POST(req: Request) {
         <h2>New RSVP</h2>
         <p><b>Name:</b> ${data.name}</p>
         <p><b>Email:</b> ${data.email}</p>
+        <p><b>Response:</b> ${attendance}</p>
         <p><b>Guests:</b> ${data.guests}</p>
         <p><b>Events:</b> ${events}</p>
         <p><b>Dietary:</b> ${data.dietary || "-"}</p>
@@ -32,7 +43,7 @@ export async function POST(req: Request) {
       `
     });
 
-    // 💌 BEAUTIFUL EMAIL TO GUEST (NEW)
+    // 💌 EMAIL TO GUEST (INVITATION STYLE)
     await transporter.sendMail({
       from: `"Karolína & Bharadwaj" <${process.env.EMAIL_USER}>`,
       to: data.email,
@@ -58,15 +69,15 @@ export async function POST(req: Request) {
           </p>
 
           <p style="margin-top:10px; line-height:1.6;">
-            We are truly delighted to have you join us.  
-            Thank you for sharing your response — it means a lot to us.
+            ${customMessage}
           </p>
 
           <div style="margin:30px 0; padding:20px; background:#0f0d0b; border-radius:10px; border:1px solid rgba(212,175,55,0.2); text-align:left;">
             
+            <p><b>Response:</b> ${attendance}</p>
             <p><b>Name:</b> ${data.name}</p>
             <p><b>Email:</b> ${data.email}</p>
-            <p><b>Guests:</b> ${data.guests}</p>
+            <p><b>Guests:</b> ${data.guests || "-"}</p>
             <p><b>Events:</b> ${events}</p>
             <p><b>Dietary:</b> ${data.dietary || "-"}</p>
             <p><b>Message:</b> ${data.message || "-"}</p>
@@ -106,3 +117,4 @@ export async function POST(req: Request) {
     );
   }
 }
+

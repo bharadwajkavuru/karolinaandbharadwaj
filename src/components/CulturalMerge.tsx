@@ -120,52 +120,69 @@ export default function CulturalMerge() {
 )}
 
 {/* 📱 MOBILE VERSION (CLEAN + SMOOTH) */}
+{/* 📱 MOBILE VERSION (CINEMATIC SAFE) */}
 {isMobile && (
 <div className="flex flex-col">
 
-  {/* Slovakia */}
-  <div className="relative h-[60vh] flex items-center justify-center overflow-hidden">
+  {/* 🇸🇰 Slovakia */}
+  <motion.div
+    initial={{ scale: 1.1 }}
+    whileInView={{ scale: 1 }}
+    transition={{ duration: 1.5, ease: "easeOut" }}
+    className="relative h-[60vh] flex items-center justify-center overflow-hidden"
+  >
     <div
       className="absolute inset-0 bg-cover bg-center"
       style={{ backgroundImage: "url('/culturalMerge/slovakia.jpg')" }}
     />
     <div className="absolute inset-0 bg-black/40" />
+
     <div className="relative text-center text-white px-4">
       <h2 className="text-3xl mb-2">Slovakia</h2>
       <p className="opacity-80 text-sm">
         Mountains • Tradition • Heritage
       </p>
     </div>
-  </div>
+  </motion.div>
 
-  {/* TEXT */}
-  <div className="py-16 text-center px-6">
+  {/* ✨ CENTER TEXT */}
+  <motion.div
+    initial={{ opacity: 0, y: 40 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    transition={{ duration: 1.2 }}
+    className="py-16 text-center px-6 bg-[#0f0d0b]"
+  >
     <p className="text-lg text-[#e6d3a3]">
       We warmly invite you
     </p>
     <p className="text-lg mt-3 text-[#e6c77c]">
       to join us and bless this new beginning
     </p>
-  </div>
+  </motion.div>
 
-  {/* India */}
-  <div className="relative h-[60vh] flex items-center justify-center overflow-hidden">
+  {/* 🇮🇳 India */}
+  <motion.div
+    initial={{ scale: 1 }}
+    whileInView={{ scale: 1.05 }}
+    transition={{ duration: 1.5, ease: "easeOut" }}
+    className="relative h-[60vh] flex items-center justify-center overflow-hidden"
+  >
     <div
       className="absolute inset-0 bg-cover bg-center"
       style={{ backgroundImage: "url('/culturalMerge/india.jpg')" }}
     />
     <div className="absolute inset-0 bg-black/40" />
+
     <div className="relative text-center text-white px-4">
       <h2 className="text-3xl mb-2">India</h2>
       <p className="opacity-80 text-sm">
         Colors • Celebration • Culture
       </p>
     </div>
-  </div>
+  </motion.div>
 
 </div>
 )}
-
 </section>
 
   )

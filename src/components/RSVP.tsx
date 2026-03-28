@@ -14,7 +14,7 @@ const [form, setForm] = useState({
   dietary: "",
   message: "",
   events: [] as string[],
-  attendance: "" // ✅ NEW
+  attendance: ""
 })
 
 const [submitted, setSubmitted] = useState(false)
@@ -54,14 +54,18 @@ const handleSubmit = async (e: any) => {
 
 return (
 
-<section className="w-full py-40 bg-[#0f0d0b] text-center relative overflow-hidden">
+<section className="w-full overflow-hidden relative py-40 bg-[#0f0d0b] text-center">
 
-<div className="absolute inset-0 opacity-[0.08]"
+{/* glow */}
+<div
+className="absolute inset-0 opacity-[0.08] pointer-events-none"
 style={{
 background: "radial-gradient(circle at center, rgba(212,175,55,0.4), transparent 60%)"
-}}/>
+}}
+/>
 
-<div className="max-w-2xl mx-auto px-6 relative">
+{/* CONTENT WRAPPER (CRITICAL FIX) */}
+<div className="max-w-2xl mx-auto px-6 relative w-full overflow-hidden">
 
 <motion.h2
 initial={{ opacity: 0, y: 40 }}
@@ -84,7 +88,7 @@ RSVP
 <motion.div
 initial={{ opacity: 0 }}
 animate={{ opacity: 1 }}
-className="bg-[#1a1714]/70 backdrop-blur-xl border border-[#d4af37]/30 rounded-xl p-10"
+className="bg-[#1a1714]/70 backdrop-blur-xl border border-[#d4af37]/30 rounded-xl p-10 w-full overflow-hidden"
 >
 <h3 className="text-2xl text-[#f1d48a] mb-4">Thank You</h3>
 <p className="text-gray-300">We look forward to celebrating with you ✦</p>
@@ -94,7 +98,7 @@ className="bg-[#1a1714]/70 backdrop-blur-xl border border-[#d4af37]/30 rounded-x
 
 <form
 onSubmit={handleSubmit}
-className="bg-[#1a1714]/70 backdrop-blur-xl border border-[#d4af37]/30 rounded-xl p-8 space-y-6 text-left"
+className="bg-[#1a1714]/70 backdrop-blur-xl border border-[#d4af37]/30 rounded-xl p-8 space-y-6 text-left w-full overflow-hidden"
 >
 
 {/* Attendance */}
@@ -102,25 +106,25 @@ className="bg-[#1a1714]/70 backdrop-blur-xl border border-[#d4af37]/30 rounded-x
 <p className="text-[#f1d48a] mb-3">
   We would love to know if you will be able to join us
 </p>
-  <div className="flex gap-3">
+
+<div className="flex gap-3">
 
 {["Yes", "No"].map(option => (
-      <button
-        key={option}
-        type="button"
-        onClick={() => setForm({ ...form, attendance: option })}
-        className={`flex-1 border px-4 py-2 rounded-lg transition ${
-          form.attendance === option
-            ? "bg-[#d4af37] text-black"
-            : "border-[#d4af37]/30 text-gray-300 hover:border-[#d4af37]"
-        }`}
-      >
+<button
+key={option}
+type="button"
+onClick={() => setForm({ ...form, attendance: option })}
+className={`flex-1 border px-4 py-2 rounded-lg transition ${
+form.attendance === option
+? "bg-[#d4af37] text-black"
+: "border-[#d4af37]/30 text-gray-300 hover:border-[#d4af37]"
+}`}
+>
 {option === "Yes" ? "Gladly" : "With regrets"}
-      </button>
+</button>
+))}
 
-    ))}
-
-  </div>
+</div>
 </div>
 
 <input
@@ -138,7 +142,6 @@ className="w-full p-3 rounded bg-[#0f0d0b] text-white border border-[#d4af37]/20
 onChange={(e) => setForm({ ...form, email: e.target.value })}
 />
 
-{/* 👇 SHOW ONLY IF YES OR MAYBE */}
 {form.attendance !== "No" && (
 <>
 <select
@@ -152,28 +155,26 @@ onChange={(e) => setForm({ ...form, guests: Number(e.target.value) })}
 </select>
 
 <div>
-  <p className="text-[#f1d48a] mb-4">Events</p>
+<p className="text-[#f1d48a] mb-4">Events</p>
 
-  <div className="flex flex-wrap md:flex-nowrap gap-4">
+<div className="flex flex-wrap md:flex-nowrap gap-4">
 
-    {events.map(event => (
+{events.map(event => (
+<button
+type="button"
+key={event}
+onClick={() => toggleEvent(event)}
+className={`flex-1 border px-4 py-3 rounded-lg text-sm ${
+form.events.includes(event)
+? "bg-[#d4af37] text-black"
+: "border-[#d4af37]/30 text-gray-300"
+}`}
+>
+{event}
+</button>
+))}
 
-      <button
-        type="button"
-        key={event}
-        onClick={() => toggleEvent(event)}
-        className={`flex-1 border px-4 py-3 rounded-lg text-sm ${
-          form.events.includes(event)
-            ? "bg-[#d4af37] text-black"
-            : "border-[#d4af37]/30 text-gray-300"
-        }`}
-      >
-        {event}
-      </button>
-
-    ))}
-
-  </div>
+</div>
 </div>
 
 <textarea

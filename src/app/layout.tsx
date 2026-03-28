@@ -19,9 +19,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${playfair.variable} ${inter.variable}`}>
-        {children}
-      </body>
+<body>
+  <div className="w-full overflow-x-hidden">
+    {children}
+  </div>
+</body>
     </html>
   )
 }

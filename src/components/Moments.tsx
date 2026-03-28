@@ -15,7 +15,7 @@ const photos = [
   "/moments/moment9.jpg",
   "/moments/moment11.jpg", 
   "/moments/moment12.jpg",
-"/moments/moment10.jpg"
+  "/moments/moment10.jpg"
 ]
 
 export default function Moments() {
@@ -25,31 +25,23 @@ export default function Moments() {
   const [tilt, setTilt] = useState({ x: 0, y: 0 })
 
   useEffect(() => {
-
     const interval = setInterval(() => {
       setCenterIndex((prev) => (prev + 1) % photos.length)
     }, 5000)
-
     return () => clearInterval(interval)
-
   }, [])
 
   useEffect(() => {
-
     const generated = Array.from({ length: 18 }).map(() => ({
       x: Math.random() * 100,
       y: Math.random() * 100,
       duration: 10 + Math.random() * 10
     }))
-
     setParticles(generated)
-
   }, [])
 
   const handleMouseMove = (e: any) => {
-
     const rect = e.currentTarget.getBoundingClientRect()
-
     const x = (e.clientX - rect.left) / rect.width
     const y = (e.clientY - rect.top) / rect.height
 
@@ -57,7 +49,6 @@ export default function Moments() {
       x: (y - 0.5) * 10,
       y: (x - 0.5) * -10
     })
-
   }
 
   const resetTilt = () => {
@@ -67,28 +58,22 @@ export default function Moments() {
   return (
 
 <motion.section
-initial={{ opacity: 1 }}
-whileInView={{ opacity: 1 }}
-exit={{ opacity: 0 }}
-transition={{ duration: 1 }}
-className="w-full relative py-40 bg-gradient-to-b from-[#f5f2ea] via-[#efe9dc] to-[#f5f2ea] overflow-hidden"
+className="w-full overflow-hidden relative py-40 bg-gradient-to-b from-[#f5f2ea] via-[#efe9dc] to-[#f5f2ea]"
 >
-{/* background glow */}
+
+{/* glow */}
 <div
-  className="absolute inset-0 opacity-[0.12]"
-  style={{
-    background:
-      "radial-gradient(circle at center, rgba(212,175,55,0.35), transparent 65%)"
-  }}
+className="absolute inset-0 opacity-[0.12]"
+style={{
+  background:
+    "radial-gradient(circle at center, rgba(212,175,55,0.35), transparent 65%)"
+}}
 />
 
-
-{/* floating particles */}
-
-<div className="absolute inset-0 pointer-events-none">
+{/* particles */}
+<div className="absolute inset-0 pointer-events-none overflow-hidden">
 
 {particles.map((p, i) => (
-
 <motion.span
 key={i}
 className="absolute w-[2px] h-[2px] bg-[#d4af37] rounded-full"
@@ -106,27 +91,22 @@ transition={{
   ease: "linear"
 }}
 />
-
 ))}
 
 </div>
 
-
-<div className="max-w-6xl mx-auto px-6 relative">
+<div className="max-w-6xl mx-auto px-6 relative overflow-hidden">
 
 <h2 className="text-center text-4xl md:text-5xl mb-20 tracking-wide text-[#1a1a1a]">
   Moments
 </h2>
 
-
 <div
-className="relative flex items-center justify-center h-[540px]"
+className="relative flex items-center justify-center h-[520px] overflow-hidden"
 style={{ perspective: 1200 }}
 >
 
-
-{/* GOLD LIGHT RAYS */}
-
+{/* glow center */}
 <motion.div
 animate={{ opacity: [0.2, 0.35, 0.2] }}
 transition={{ duration: 6, repeat: Infinity }}
@@ -136,7 +116,6 @@ background:
 "radial-gradient(circle, rgba(255,220,120,0.45) 0%, rgba(212,175,55,0.25) 40%, transparent 70%)"
 }}
 />
-
 
 {photos.map((photo, i) => {
 
@@ -154,12 +133,15 @@ onMouseLeave={isCenter ? resetTilt : undefined}
 initial={false}
 animate={{
 
-x: offset * 220,
-y: offset * -20,
-scale: isCenter ? 1 : 0.82,
-rotate: isCenter ? 0 : offset * 6,
+// ✅ REDUCED SPREAD (CRITICAL FIX)
+x: offset * 140,
+
+y: offset * -15,
+scale: isCenter ? 1 : 0.85,
+rotate: isCenter ? 0 : offset * 5,
 rotateX: isCenter ? tilt.x : 0,
 rotateY: isCenter ? tilt.y : 0,
+
 opacity: absOffset > 2 ? 0 : 1,
 zIndex: isCenter ? 10 : 5 - absOffset
 
@@ -168,7 +150,7 @@ transition={{
 duration: 1.2,
 ease: "easeInOut"
 }}
-className="absolute w-[260px] md:w-[320px] h-[360px] md:h-[420px] object-cover rounded-xl shadow-[0_35px_70px_rgba(0,0,0,0.28)]"
+className="absolute w-[240px] md:w-[300px] h-[340px] md:h-[400px] object-cover rounded-xl shadow-[0_35px_70px_rgba(0,0,0,0.28)]"
 />
 
 )
@@ -177,13 +159,10 @@ className="absolute w-[260px] md:w-[320px] h-[360px] md:h-[420px] object-cover r
 
 </div>
 
-
-{/* navigation dots */}
-
+{/* dots */}
 <div className="flex justify-center mt-16 gap-3">
 
 {photos.map((_, i) => (
-
 <div
 key={i}
 onClick={() => setCenterIndex(i)}
@@ -193,22 +172,16 @@ i === centerIndex
 : "bg-gray-400/40"
 }`}
 />
-
 ))}
 
 </div>
 
-
-{/* decorative divider */}
-
+{/* divider */}
 <div className="flex justify-center mt-20 items-center gap-4">
-
 <div className="h-[1px] w-16 bg-[#d4af37]/60"></div>
 <div className="text-[#d4af37] text-lg">✦</div>
 <div className="h-[1px] w-16 bg-[#d4af37]/60"></div>
-
 </div>
-
 
 </div>
 

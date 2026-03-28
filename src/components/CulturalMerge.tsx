@@ -12,36 +12,22 @@ export default function CulturalMerge() {
     offset: ["start end", "end start"]
   })
 
-  const leftX = useTransform(scrollYProgress, [0.05, 0.85], ["0%", "-55%"])
-  const rightX = useTransform(scrollYProgress, [0.05, 0.85], ["0%", "55%"])
+  // 🔥 TIGHTER ANIMATION
+  const leftX = useTransform(scrollYProgress, [0.05, 0.65], ["0%", "-55%"])
+  const rightX = useTransform(scrollYProgress, [0.05, 0.65], ["0%", "55%"])
 
-  const textureY = useTransform(scrollYProgress, [0, 1], ["0%", "15%"])
+  const textOpacity = useTransform(scrollYProgress, [0.25, 0.5], [0, 1])
+  const textScale = useTransform(scrollYProgress, [0.25, 0.5], [0.95, 1])
 
-  const textOpacity = useTransform(scrollYProgress, [0.35, 0.65], [0, 1])
-  const textScale = useTransform(scrollYProgress, [0.35, 0.65], [0.92, 1])
-
-  const dividerOpacity = useTransform(scrollYProgress, [0.15, 0.5], [0, 0.7])
-  const dividerHeight = useTransform(scrollYProgress, [0.25, 0.75], ["0%", "75%"])
-
-  const [petals, setPetals] = useState<
-    { left: number; top: number; duration: number }[]
-  >([])
+  const dividerOpacity = useTransform(scrollYProgress, [0.1, 0.4], [0, 0.7])
+  const dividerHeight = useTransform(scrollYProgress, [0.15, 0.55], ["0%", "70%"])
 
   const [soundOn, setSoundOn] = useState(true)
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const hasStarted = useRef(false)
 
+  // 🔊 USER INTERACTION START
   useEffect(() => {
-    const generated = Array.from({ length: 8 }).map(() => ({
-      left: Math.random() * 100,
-      top: Math.random() * 100,
-      duration: 12 + Math.random() * 6
-    }))
-    setPetals(generated)
-  }, [])
-
-  useEffect(() => {
-
     const startAudio = () => {
       if (hasStarted.current) return
       if (!audioRef.current) return
@@ -65,7 +51,6 @@ export default function CulturalMerge() {
       window.removeEventListener("touchstart", startAudio)
       window.removeEventListener("keydown", startAudio)
     }
-
   }, [])
 
   useEffect(() => {
@@ -80,7 +65,7 @@ export default function CulturalMerge() {
 
   return (
 
-<section ref={ref} className="relative h-[200vh] bg-[#0f0d0b] overflow-hidden">
+<section ref={ref} className="relative h-[120vh] bg-[#0f0d0b] overflow-hidden">
 
 <audio ref={audioRef} loop src="/audio/ambient-flute.mp3" />
 
@@ -91,17 +76,22 @@ export default function CulturalMerge() {
   {soundOn ? "🔊" : "🔈"}
 </button>
 
-{/* Slovakia */}
+{/* ✨ CENTER GLOW */}
+<div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,rgba(255,215,120,0.12),transparent_60%)]" />
+
+{/* 🇸🇰 Slovakia */}
 <motion.div
   style={{ x: leftX }}
-  className="absolute left-0 top-0 w-1/2 h-screen flex items-center justify-center bg-gradient-to-br from-[#2a3442] to-[#1c2530]"
+  className="absolute left-0 top-0 w-1/2 h-screen flex items-center justify-center
+  overflow-hidden
+  shadow-[inset_-40px_0_80px_rgba(0,0,0,0.7)]"
 >
-  <motion.div style={{ y: textureY }} className="absolute inset-0 opacity-[0.08]">
-    <div className="w-full h-full" style={{
-      backgroundImage: "url('/textures/slovak-pattern.svg')",
-      backgroundSize: "380px"
-    }} />
-  </motion.div>
+  <div
+    className="absolute inset-0 bg-cover bg-center opacity-85"
+    style={{ backgroundImage: "url('/culturalMerge/slovakia.jpg')" }}
+  />
+
+  <div className="absolute inset-0 bg-gradient-to-br from-[#1c2530]/60 via-[#1c2530]/40 to-[#1c2530]/70" />
 
   <div className="text-center text-[#f5f5f5] relative z-10">
     <h2 className="text-4xl mb-4">Slovakia</h2>
@@ -109,17 +99,19 @@ export default function CulturalMerge() {
   </div>
 </motion.div>
 
-{/* India */}
+{/* 🇮🇳 India */}
 <motion.div
   style={{ x: rightX }}
-  className="absolute right-0 top-0 w-1/2 h-screen flex items-center justify-center bg-gradient-to-br from-[#c15522] to-[#7f2a1d]"
+  className="absolute right-0 top-0 w-1/2 h-screen flex items-center justify-center
+  overflow-hidden
+  shadow-[inset_40px_0_80px_rgba(0,0,0,0.7)]"
 >
-  <motion.div style={{ y: textureY }} className="absolute inset-0 opacity-[0.09]">
-    <div className="w-full h-full" style={{
-      backgroundImage: "url('/textures/rangoli.svg')",
-      backgroundSize: "350px"
-    }} />
-  </motion.div>
+  <div
+    className="absolute inset-0 bg-cover bg-center opacity-90"
+    style={{ backgroundImage: "url('/culturalMerge/india.jpg')" }}
+  />
+
+  <div className="absolute inset-0 bg-gradient-to-br from-[#a63e1f]/55 via-[#a63e1f]/35 to-[#7f2a1d]/65" />
 
   <div className="text-center text-[#fff3e0] relative z-10">
     <h2 className="text-4xl mb-4">India</h2>
@@ -127,16 +119,19 @@ export default function CulturalMerge() {
   </div>
 </motion.div>
 
-{/* ✨ Softer Divider */}
+{/* ✨ DIVIDER */}
 <motion.div
   style={{ opacity: dividerOpacity, height: dividerHeight }}
-  className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[1px] bg-gradient-to-b from-transparent via-[#d4af37]/60 to-transparent"
+  className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2
+  w-[2px]
+  bg-gradient-to-b from-transparent via-[#d4af37]/70 to-transparent
+  blur-[0.6px]"
 />
 
-{/* ✨ Text (moved slightly down) */}
+{/* ✨ TEXT */}
 <motion.div
   style={{ opacity: textOpacity, scale: textScale }}
-  className="absolute inset-0 flex items-center justify-center text-center translate-y-10"
+  className="absolute inset-0 flex items-center justify-center text-center translate-y-16"
 >
   <div>
     <p className="text-xl md:text-2xl text-[#e6d3a3]">

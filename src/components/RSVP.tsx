@@ -64,6 +64,13 @@ className="text-4xl md:text-5xl text-[#f1d48a] mb-12"
 RSVP
 </motion.h2>
 
+<p className="mt-4 text-lg text-neutral-600">
+  We would be delighted to have you join us.
+</p>
+
+<p className="mt-4 text-base text-neutral-500">
+  Please take a moment to let us know your plans below, as it will help us prepare for your presence.
+</p>
 {submitted ? (
 
 <motion.div

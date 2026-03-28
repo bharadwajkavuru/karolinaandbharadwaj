@@ -99,12 +99,12 @@ className="bg-[#1a1714]/70 backdrop-blur-xl border border-[#d4af37]/30 rounded-x
 
 {/* Attendance */}
 <div>
-  <p className="text-[#f1d48a] mb-3">Will you be joining us?</p>
-
+<p className="text-[#f1d48a] mb-3">
+  We would love to know if you will be able to join us
+</p>
   <div className="flex gap-3">
 
-    {["Yes", "No", "Maybe"].map(option => (
-
+{["Yes", "No"].map(option => (
       <button
         key={option}
         type="button"
@@ -115,7 +115,7 @@ className="bg-[#1a1714]/70 backdrop-blur-xl border border-[#d4af37]/30 rounded-x
             : "border-[#d4af37]/30 text-gray-300 hover:border-[#d4af37]"
         }`}
       >
-        {option}
+{option === "Yes" ? "Gladly" : "With regrets"}
       </button>
 
     ))}

@@ -65,7 +65,7 @@ export default function CulturalMerge() {
 
   return (
 
-<section ref={ref} className="relative h-[120vh] bg-[#0f0d0b] overflow-hidden">
+<section ref={ref} className="w-full relative h-[120vh] bg-[#0f0d0b] overflow-hidden">
 
 <audio ref={audioRef} loop src="/audio/ambient-flute.mp3" />
 

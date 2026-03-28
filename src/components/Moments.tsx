@@ -71,7 +71,7 @@ initial={{ opacity: 1 }}
 whileInView={{ opacity: 1 }}
 exit={{ opacity: 0 }}
 transition={{ duration: 1 }}
-className="relative py-40 bg-gradient-to-b from-[#f5f2ea] via-[#efe9dc] to-[#f5f2ea] overflow-hidden"
+className="w-full relative py-40 bg-gradient-to-b from-[#f5f2ea] via-[#efe9dc] to-[#f5f2ea] overflow-hidden"
 >
 {/* background glow */}
 <div

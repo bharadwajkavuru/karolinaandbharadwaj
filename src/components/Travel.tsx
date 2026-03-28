@@ -2,7 +2,7 @@ export default function Travel() {
 
   return (
 
-    <section className="py-32 bg-dark-soft text-center">
+    <section className="w-full py-32 bg-dark-soft text-center">
 
       <h2 className="text-4xl mb-10">
         Travel & Stay

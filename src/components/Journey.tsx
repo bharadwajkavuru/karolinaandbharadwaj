@@ -11,7 +11,7 @@ export default function Journey() {
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 1 }}
       viewport={{ once: true }}
-      className="relative py-40 bg-gradient-to-b from-[#f7f6f3] to-[#efece6] text-center overflow-hidden"
+      className="w-full relative py-40 bg-gradient-to-b from-[#f7f6f3] to-[#efece6] text-center overflow-hidden"
     >
 
       {/* Subtle gold glow */}

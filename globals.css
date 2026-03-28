@@ -38,6 +38,12 @@ body {
   color: var(--text-light);
   font-family: 'Playfair Display', serif;
   overflow-x: hidden;
+  position : relative;
+}
+
+html, body {
+  overflow-x: hidden;
+  max-width: 100%;
 }
 
 

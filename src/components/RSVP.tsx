@@ -54,7 +54,7 @@ const handleSubmit = async (e: any) => {
 
 return (
 
-<section className="py-40 bg-[#0f0d0b] text-center relative overflow-hidden">
+<section className="w-full py-40 bg-[#0f0d0b] text-center relative overflow-hidden">
 
 <div className="absolute inset-0 opacity-[0.08]"
 style={{

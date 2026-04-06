@@ -64,7 +64,7 @@ background: "radial-gradient(circle at center, rgba(212,175,55,0.4), transparent
 }}
 />
 
-{/* CONTENT WRAPPER (CRITICAL FIX) */}
+{/* CONTENT WRAPPER */}
 <div className="max-w-2xl mx-auto px-6 relative w-full overflow-hidden">
 
 <motion.h2
@@ -75,13 +75,17 @@ className="text-4xl md:text-5xl text-[#f1d48a] mb-12"
 RSVP
 </motion.h2>
 
-<p className="mt-4 text-lg text-neutral-600">
-  We would be delighted to have you join us.
-</p>
+{!submitted && (
+  <>
+    <p className="mt-4 text-lg text-neutral-600">
+      We would be delighted to have you join us.
+    </p>
 
-<p className="mt-4 text-base text-neutral-500">
-  Please take a moment to let us know your plans below, as it will help us prepare for your presence.
-</p>
+    <p className="mt-4 text-base text-neutral-500">
+      Please take a moment to let us know your plans below, as it will help us prepare for your presence.
+    </p>
+  </>
+)}
 
 {submitted ? (
 
@@ -91,7 +95,17 @@ animate={{ opacity: 1 }}
 className="bg-[#1a1714]/70 backdrop-blur-xl border border-[#d4af37]/30 rounded-xl p-10 w-full overflow-hidden"
 >
 <h3 className="text-2xl text-[#f1d48a] mb-4">Thank You</h3>
-<p className="text-gray-300">We look forward to celebrating with you ✦</p>
+
+<p className="text-gray-300 mb-4">
+  We look forward to celebrating with you ✦
+</p>
+
+{/* ✅ NEW GIFT MESSAGE */}
+<p className="text-sm text-neutral-400 max-w-md mx-auto leading-relaxed">
+  As we will be travelling back to Europe and India after the celebrations, it may be difficult for us to carry larger gifts. 
+  We kindly request you to keep this in mind.
+</p>
+
 </motion.div>
 
 ) : (

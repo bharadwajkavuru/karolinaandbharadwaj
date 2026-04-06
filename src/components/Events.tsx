@@ -7,8 +7,8 @@ const events = [
   {
     title: "Haldi Ceremony",
     date: "16 May 2026",
-    et: "12:00 PM ET",
-    ist: "9:30 PM IST",
+    et: "10:00 AM ET",
+    ist: "7:30 PM IST",
     image: "/events/haldi.jpg"
   },
   {

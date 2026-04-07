@@ -9,6 +9,8 @@ const events = [
     date: "16 May 2026",
     et: "10:00 AM ET",
     ist: "7:30 PM IST",
+    location: "7365 Quinn Court, Dawsonville, GA",
+    map: "https://www.google.com/maps?q=7365+Quinn+Court+Dawsonville+GA",
     image: "/events/haldi.jpg"
   },
   {
@@ -16,6 +18,8 @@ const events = [
     date: "16 May 2026",
     et: "05:00 PM ET",
     ist: "2:30 AM IST",
+    location: "Banjara Banquets, Cumming, GA",
+    map: "https://www.google.com/maps?q=Banjara+Banquets+1656+Buford+Hwy+Cumming+GA",
     image: "/events/sangeet.jpg"
   },
   {
@@ -23,6 +27,8 @@ const events = [
     date: "17 May 2026",
     et: "10:00 AM ET",
     ist: "7:30 PM IST",
+    location: "Banjara Banquets, Cumming, GA",
+    map: "https://www.google.com/maps?q=Banjara+Banquets+1656+Buford+Hwy+Cumming+GA",
     image: "/events/wedding.jpg"
   }
 ]
@@ -55,7 +61,6 @@ background:
 Events
 </h2>
 
-{/* 👇 Changed to 3 columns */}
 <div className="grid md:grid-cols-3 gap-10">
 
 {events.map((event, i) => {
@@ -68,7 +73,7 @@ return (
 key={i}
 onMouseEnter={() => setFlipped(i)}
 onMouseLeave={() => setFlipped(null)}
-className="relative h-[280px] perspective"
+className="relative h-[320px] perspective"
 >
 
 <motion.div
@@ -121,7 +126,7 @@ className="absolute inset-0 w-full h-full object-cover opacity-45"
 
 <div className="absolute inset-0 bg-black/50" />
 
-<div className="relative h-full flex flex-col items-center justify-center text-center">
+<div className="relative h-full flex flex-col items-center justify-center text-center px-6">
 
 <p className="text-[#f1d48a] text-lg mb-2">
 {event.date}
@@ -131,9 +136,19 @@ className="absolute inset-0 w-full h-full object-cover opacity-45"
 {event.et}
 </p>
 
-<p className="text-gray-400 text-sm">
+<p className="text-gray-400 text-sm mb-3">
 {event.ist}
 </p>
+
+{/* 📍 LOCATION */}
+<a
+href={event.map}
+target="_blank"
+rel="noopener noreferrer"
+className="text-sm text-[#d4af37] underline hover:opacity-80"
+>
+{event.location}
+</a>
 
 </div>
 

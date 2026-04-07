@@ -15,7 +15,8 @@ const photos = [
   "/moments/moment9.jpg",
   "/moments/moment11.jpg", 
   "/moments/moment12.jpg",
-  "/moments/moment10.jpg"
+  "/moments/moment10.jpg",
+"/moments/moment13.jpg"
 ]
 
 export default function Moments() {

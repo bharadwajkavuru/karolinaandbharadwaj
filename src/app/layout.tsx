@@ -12,6 +12,13 @@ const inter = Inter({
   variable: "--font-inter"
 })
 
+export const metadata = {
+  title: "Karolína & Bharadwaj",
+  icons: {
+    icon: "/icon.png",
+  },
+}
+
 export default function RootLayout({
   children,
 }: {
@@ -19,6 +26,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+<link rel="icon" href="/icon.png" />
+<link rel="apple-touch-icon" href="/icon.png" />
 <body>
   <div className="w-full overflow-x-hidden">
     {children}

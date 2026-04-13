@@ -2,9 +2,20 @@
 
 import { useEffect, useState } from "react";
 
+const EVENTS = [
+  "All",
+  "Haldi 🌼",
+  "Mehendi 🌿",
+  "Sangeet 🎶",
+  "Wedding 💛",
+  "Behind the Scenes 🎬"
+];
+
 export default function WeddingPhotos() {
   const [media, setMedia] = useState<any[]>([]);
   const [selected, setSelected] = useState<any | null>(null);
+  const [filter, setFilter] = useState("All");
+  const [visible, setVisible] = useState(true);
 
   useEffect(() => {
     const fetchMedia = async () => {
@@ -20,18 +31,63 @@ export default function WeddingPhotos() {
     fetchMedia();
   }, []);
 
+  // 🎬 Cinematic transition on filter change
+  const handleFilterChange = (value: string) => {
+    if (value === filter) return;
+
+    setVisible(false); // fade out
+    setTimeout(() => {
+      setFilter(value);
+      setVisible(true); // fade in
+    }, 250);
+  };
+
+  // 🎯 Clean matching (remove emoji before compare)
+  const getEventName = (label: string) =>
+    label.replace(/[^\w\s]/gi, "").trim();
+
+  const filtered =
+    filter === "All"
+      ? media
+      : media.filter(
+          (item) =>
+            item.context?.custom?.event === getEventName(filter)
+        );
+
   return (
     <div className="min-h-screen bg-black text-white px-4 md:px-10 py-20">
 
       {/* Title */}
-      <h1 className="text-4xl md:text-5xl text-center text-yellow-400 mb-16 tracking-wide">
+      <h1 className="text-4xl md:text-5xl text-center text-yellow-400 mb-10 tracking-wide">
         Wedding Moments ✨
       </h1>
 
-      {/* Masonry Layout */}
-      <div className="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
+      {/* 🎯 FILTER UI */}
+      <div className="flex justify-center gap-3 mb-12 flex-wrap">
+        {EVENTS.map((e) => (
+          <button
+            key={e}
+            onClick={() => handleFilterChange(e)}
+            className={`px-4 py-1.5 rounded-full text-sm border transition-all duration-300 ${
+              filter === e
+                ? "bg-yellow-400 text-black border-yellow-400 scale-105 shadow-[0_0_12px_rgba(255,215,0,0.5)]"
+                : "border-neutral-600 text-neutral-300 hover:border-yellow-400 hover:scale-105"
+            }`}
+          >
+            {e}
+          </button>
+        ))}
+      </div>
 
-        {media.map((item, index) => {
+      {/* 🎬 CINEMATIC GRID */}
+      <div
+        className={`columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4 transition-all duration-500 ${
+          visible
+            ? "opacity-100 blur-0 scale-100"
+            : "opacity-0 blur-sm scale-95"
+        }`}
+      >
+        {filtered.map((item, index) => {
           const isVideo = item.resource_type === "video";
 
           return (
@@ -44,12 +100,11 @@ export default function WeddingPhotos() {
               {!isVideo && (
                 <img
                   src={item.secure_url}
-                  alt="wedding"
                   className="w-full rounded-xl transition duration-700 group-hover:scale-105"
                 />
               )}
 
-              {/* VIDEO (hover play) */}
+              {/* VIDEO */}
               {isVideo && (
                 <video
                   src={item.secure_url}
@@ -65,16 +120,13 @@ export default function WeddingPhotos() {
                 />
               )}
 
-              {/* Overlay glow */}
+              {/* Glow overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-60 group-hover:opacity-30 transition duration-500" />
 
-              {/* ✨ Gold shimmer */}
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-700 bg-[radial-gradient(circle_at_30%_30%,rgba(255,215,0,0.18),transparent_60%)]" />
-
-              {/* ▶ Play indicator */}
+              {/* Play icon */}
               {isVideo && (
-                <div className="absolute inset-0 flex items-center justify-center opacity-80 group-hover:opacity-100 transition">
-                  <div className="w-12 h-12 rounded-full bg-black/60 flex items-center justify-center text-white text-lg">
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="w-10 h-10 rounded-full bg-black/60 flex items-center justify-center">
                     ▶
                   </div>
                 </div>

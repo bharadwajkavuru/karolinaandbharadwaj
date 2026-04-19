@@ -100,7 +100,6 @@ className="bg-[#1a1714]/70 backdrop-blur-xl border border-[#d4af37]/30 rounded-x
   We look forward to celebrating with you ✦
 </p>
 
-{/* ✅ NEW GIFT MESSAGE */}
 <p className="text-sm text-neutral-400 max-w-md mx-auto leading-relaxed">
   As we will be travelling back to Europe and India after the celebrations, it may be difficult for us to carry larger gifts. 
   We kindly request you to keep this in mind.
@@ -160,12 +159,19 @@ onChange={(e) => setForm({ ...form, email: e.target.value })}
 <>
 <select
 className="w-full p-3 rounded bg-[#0f0d0b] text-white border border-[#d4af37]/20"
+value={form.guests}
 onChange={(e) => setForm({ ...form, guests: Number(e.target.value) })}
 >
-<option value="1">1 Guest</option>
-<option value="2">2 Guests</option>
-<option value="3">3 Guests</option>
-<option value="4">4 Guests</option>
+  <option value="1">1 Guest</option>
+  <option value="2">2 Guests</option>
+  <option value="3">3 Guests</option>
+  <option value="4">4 Guests</option>
+  <option value="5">5 Guests</option>
+  <option value="6">6 Guests</option>
+  <option value="7">7 Guests</option>
+  <option value="8">8 Guests</option>
+  <option value="9">9 Guests</option>
+  <option value="10">10 Guests</option>
 </select>
 
 <div>

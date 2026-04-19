@@ -23,8 +23,6 @@ export default function UploadPage() {
     formData.append("file", file);
     formData.append("upload_preset", "wedding_upload");
     formData.append("folder", "wedding");
-
-    // 🎯 SAVE CATEGORY
     formData.append("context", `event=${event}`);
 
     const isVideo = file.type.startsWith("video");
@@ -50,9 +48,7 @@ export default function UploadPage() {
 
   return (
     <div className="min-h-screen bg-black text-white flex items-center justify-center px-6">
-
       <div className="w-full max-w-md bg-gradient-to-b from-[#1a1a1a] to-black border border-yellow-500/30 rounded-2xl p-8 text-center shadow-[0_0_40px_rgba(255,215,0,0.08)]">
-
         <h1 className="text-3xl text-yellow-400 mb-4 tracking-wide">
           Share Your Moments ✨
         </h1>
@@ -61,7 +57,6 @@ export default function UploadPage() {
           Help us capture the memories through your lens 💛
         </p>
 
-        {/* 🎯 CATEGORY SELECTOR */}
         <div className="mb-6">
           <p className="text-xs text-neutral-400 mb-2">Select Event</p>
 
@@ -82,7 +77,6 @@ export default function UploadPage() {
           </div>
         </div>
 
-        {/* Upload box */}
         <label className="block border-2 border-dashed border-yellow-500/40 rounded-xl p-6 cursor-pointer hover:border-yellow-400 transition duration-300">
           <div className="text-neutral-300 text-sm">
             Click or drag photos/videos here
@@ -100,8 +94,7 @@ export default function UploadPage() {
           />
         </label>
 
-        {/* Status */}
-        <div className="mt-5 h-6 text-sm">
+        <div className="mt-5 min-h-[72px] text-sm flex flex-col items-center justify-start gap-3">
           {uploading && (
             <p className="text-yellow-400 animate-pulse">
               Uploading your moment...
@@ -109,9 +102,22 @@ export default function UploadPage() {
           )}
 
           {success && (
-            <p className="text-green-400">
-              Uploaded to {event} ✨
-            </p>
+            <>
+              <p className="text-green-400">
+                Uploaded to {event} ✨
+              </p>
+
+              <a
+                href="/weddingphotos"
+                className="inline-block px-5 py-2 rounded-full border border-yellow-400 text-yellow-400 hover:bg-yellow-400 hover:text-black transition duration-300"
+              >
+                View Wedding Gallery
+              </a>
+
+              <p className="text-xs text-neutral-500">
+                You can now see your upload or share the gallery with others.
+              </p>
+            </>
           )}
         </div>
 

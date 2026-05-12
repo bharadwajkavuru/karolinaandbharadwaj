@@ -9,6 +9,7 @@ const events = [
     date: "16 May 2026",
     et: "10:00 AM ET",
     ist: "7:30 PM IST",
+    note: "Lunch to follow for all guests",
     location: "7365 Quinn Court, Dawsonville, GA",
     map: "https://www.google.com/maps?q=7365+Quinn+Court+Dawsonville+GA",
     image: "/events/haldi.jpg"
@@ -18,6 +19,7 @@ const events = [
     date: "16 May 2026",
     et: "05:00 PM ET",
     ist: "2:30 AM IST",
+    note: "Dinner to follow for all guests",
     location: "Banjara Banquets, Cumming, GA",
     map: "https://www.google.com/maps?q=Banjara+Banquets+1656+Buford+Hwy+Cumming+GA",
     image: "/events/sangeet.jpg"
@@ -25,8 +27,11 @@ const events = [
   {
     title: "Wedding Ceremony",
     date: "17 May 2026",
-    et: "10:00 AM ET",
-    ist: "7:30 PM IST",
+    et: "10:30 AM ET",
+    ist: "8:00 PM IST",
+    note: "Rituals: 7:30 AM – 12:00 PM ET",
+    note2: "17 May 2026 • 5:00 PM – 9:30 PM IST",
+    note3: "Lunch to follow for all guests",
     location: "Banjara Banquets, Cumming, GA",
     map: "https://www.google.com/maps?q=Banjara+Banquets+1656+Buford+Hwy+Cumming+GA",
     image: "/events/wedding.jpg"
@@ -73,7 +78,7 @@ return (
 key={i}
 onMouseEnter={() => setFlipped(i)}
 onMouseLeave={() => setFlipped(null)}
-className="relative h-[320px] perspective"
+className="relative h-[380px] perspective"
 >
 
 <motion.div
@@ -124,7 +129,7 @@ src={event.image}
 className="absolute inset-0 w-full h-full object-cover opacity-45"
 />
 
-<div className="absolute inset-0 bg-black/50" />
+<div className="absolute inset-0 bg-black/55" />
 
 <div className="relative h-full flex flex-col items-center justify-center text-center px-6">
 
@@ -140,7 +145,24 @@ className="absolute inset-0 w-full h-full object-cover opacity-45"
 {event.ist}
 </p>
 
-{/* 📍 LOCATION */}
+{event.note && (
+  <p className="text-[#e6c77c] text-xs mb-2 leading-relaxed">
+    {event.note}
+  </p>
+)}
+
+{event.note2 && (
+  <p className="text-gray-400 text-xs mb-2 leading-relaxed">
+    {event.note2}
+  </p>
+)}
+
+{event.note3 && (
+  <p className="text-[#e6c77c] text-xs mb-3 leading-relaxed">
+    {event.note3}
+  </p>
+)}
+
 <a
 href={event.map}
 target="_blank"

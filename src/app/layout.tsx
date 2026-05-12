@@ -1,4 +1,5 @@
 import "./globals.css"
+import FloatingWeddingPhotos from "@/components/FloatingWeddingPhotos"
 
 import { Playfair_Display, Inter } from "next/font/google"
 
@@ -32,6 +33,7 @@ export default function RootLayout({
   <div className="w-full overflow-x-hidden">
     {children}
   </div>
+<FloatingWeddingPhotos />
 </body>
     </html>
   )

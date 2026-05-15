@@ -13,7 +13,7 @@ const EVENTS = [
 export default function UploadPage() {
   const [uploading, setUploading] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [event, setEvent] = useState("Haldi");
+  const [event, setEvent] = useState("Mehendi");
 
   const handleUpload = async (file: File) => {
     setUploading(true);
@@ -23,6 +23,8 @@ export default function UploadPage() {
     formData.append("file", file);
     formData.append("upload_preset", "wedding_upload");
     formData.append("folder", "wedding");
+
+    // IMPORTANT: this is what the gallery filter will read
     formData.append("context", `event=${event}`);
 
     const isVideo = file.type.startsWith("video");
@@ -32,10 +34,14 @@ export default function UploadPage() {
       : "https://api.cloudinary.com/v1_1/dtxpya0p6/image/upload";
 
     try {
-      await fetch(uploadUrl, {
+      const res = await fetch(uploadUrl, {
         method: "POST",
         body: formData,
       });
+
+      if (!res.ok) {
+        throw new Error("Upload failed");
+      }
 
       setSuccess(true);
     } catch (err) {
@@ -64,6 +70,7 @@ export default function UploadPage() {
             {EVENTS.map((e) => (
               <button
                 key={e}
+                type="button"
                 onClick={() => setEvent(e)}
                 className={`px-3 py-1 rounded-full text-xs border transition ${
                   event === e

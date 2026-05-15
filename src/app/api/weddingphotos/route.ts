@@ -1,49 +1,55 @@
 import { NextResponse } from "next/server";
 
+const CLOUD_NAME = "dtxpya0p6";
+
+async function fetchCloudinaryResources(resourceType: "image" | "video") {
+  const apiKey = process.env.CLOUDINARY_API_KEY;
+  const apiSecret = process.env.CLOUDINARY_API_SECRET;
+
+  if (!apiKey || !apiSecret) {
+    console.error("Missing CLOUDINARY_API_KEY or CLOUDINARY_API_SECRET");
+    return [];
+  }
+
+  const auth = Buffer.from(`${apiKey}:${apiSecret}`).toString("base64");
+
+  const res = await fetch(
+    `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/resources/${resourceType}?max_results=500&context=true`,
+    {
+      headers: {
+        Authorization: `Basic ${auth}`,
+      },
+      cache: "no-store",
+    }
+  );
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    console.error(`Cloudinary ${resourceType} fetch failed:`, data);
+    return [];
+  }
+
+  return (data.resources || []).filter((item: any) =>
+    item.public_id?.startsWith("wedding/")
+  );
+}
+
 export async function GET() {
   try {
-    const auth = Buffer.from(
-      process.env.CLOUDINARY_API_KEY + ":" + process.env.CLOUDINARY_API_SECRET
-    ).toString("base64");
+    const [images, videos] = await Promise.all([
+      fetchCloudinaryResources("image"),
+      fetchCloudinaryResources("video"),
+    ]);
 
-    // ✅ Fetch images
-    const imageRes = await fetch(
-      "https://api.cloudinary.com/v1_1/dtxpya0p6/resources/image?max_results=100",
-      {
-        headers: {
-          Authorization: `Basic ${auth}`,
-        },
-      }
+    const combined = [...images, ...videos].sort(
+      (a: any, b: any) =>
+        new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
     );
-
-    // ✅ Fetch videos
-    const videoRes = await fetch(
-      "https://api.cloudinary.com/v1_1/dtxpya0p6/resources/video?max_results=100",
-      {
-        headers: {
-          Authorization: `Basic ${auth}`,
-        },
-      }
-    );
-
-    const imageData = await imageRes.json();
-    const videoData = await videoRes.json();
-
-    // ✅ Filter only wedding folder
-    const images = (imageData.resources || []).filter((item: any) =>
-      item.public_id.startsWith("wedding/")
-    );
-
-    const videos = (videoData.resources || []).filter((item: any) =>
-      item.public_id.startsWith("wedding/")
-    );
-
-    // ✅ Merge both
-    const combined = [...images, ...videos];
 
     return NextResponse.json(combined);
   } catch (error) {
-    console.error("API ERROR:", error);
+    console.error("Wedding photos API error:", error);
     return NextResponse.json([]);
-  }
+ }
 }

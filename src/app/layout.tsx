@@ -1,3 +1,4 @@
+import LiveSangeetPopup from "@/components/LiveSangeetPopup"
 import "./globals.css"
 import FloatingWeddingPhotos from "@/components/FloatingWeddingPhotos"
 
@@ -34,6 +35,7 @@ export default function RootLayout({
     {children}
   </div>
 <FloatingWeddingPhotos />
+<LiveSangeetPopup />
 </body>
     </html>
   )

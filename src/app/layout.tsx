@@ -35,7 +35,6 @@ export default function RootLayout({
     {children}
   </div>
 <FloatingWeddingPhotos />
-<LiveSangeetPopup />
 </body>
     </html>
   )
